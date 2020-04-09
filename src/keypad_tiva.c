@@ -14,6 +14,7 @@ static uint8_t number_of_rows;
 static uint8_t number_of_columns;
 
 
+// modify this keymap according to your keypad
 uint8_t keymap[4][3] = {{'1', '2', '3'},
                         {'4', '5', '6'},
                         {'7', '8', '9'},
@@ -23,6 +24,8 @@ uint8_t keymap[4][3] = {{'1', '2', '3'},
 void keypad_init(uint8_t n_row, uint8_t n_col) {
     number_of_columns = n_col;
     number_of_rows = n_row;
+
+    delay_init();
 }
 
 
@@ -55,7 +58,7 @@ void keypad_setColumns__(PortPin_t *array_of_cols) {
 uint8_t keypad_read() {
     for (uint8_t col = 0; col < number_of_columns; col++) {
         GPIOPinWrite(columns[col].base, columns[col].pin, columns[col].pin);
-
+        
         for (uint8_t row = 0; row < number_of_rows; row++) {
             uint8_t value = GPIOPinRead(rows[row].base, rows[row].pin);
 
@@ -63,6 +66,8 @@ uint8_t keypad_read() {
                 // wait until this key is released
                 // avoid multi-press
                 while (GPIOPinRead(rows[row].base, rows[row].pin));
+                GPIOPinWrite(columns[col].base, columns[col].pin, 0);
+
                 return keymap[row][col];
             }
         }
