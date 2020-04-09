@@ -17,7 +17,7 @@ extern "C" {
 #include "utils.h"
 
 void keypad_init(uint8_t n_row, uint8_t n_col);
-int8_t keypad_read();
+uint8_t keypad_read();
 void keypad_setRows__(PortPin_t *array_of_rows);
 void keypad_setColumns__(PortPin_t *array_of_cols);
 

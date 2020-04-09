@@ -52,20 +52,23 @@ void keypad_setColumns__(PortPin_t *array_of_cols) {
 }
 
 
-int8_t keypad_read() {
+uint8_t keypad_read() {
     for (uint8_t col = 0; col < number_of_columns; col++) {
         GPIOPinWrite(columns[col].base, columns[col].pin, columns[col].pin);
 
-        uint8_t value;
-
         for (uint8_t row = 0; row < number_of_rows; row++) {
-            value = GPIOPinRead(rows[row].base, rows[row].pin);
+            uint8_t value = GPIOPinRead(rows[row].base, rows[row].pin);
 
             if (value) {
+                // wait until this key is released
+                // avoid multi-press
+                while (GPIOPinRead(rows[row].base, rows[row].pin));
                 return keymap[row][col];
             }
         }
+
+        GPIOPinWrite(columns[col].base, columns[col].pin, 0);
     }
 
-    return -1;
+    return 0;
 }
