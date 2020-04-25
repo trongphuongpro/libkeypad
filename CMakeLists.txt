@@ -4,8 +4,8 @@ set(TARGET keypad)
 
 #-----------------------------------------------------------------------------#
 
-if (SERIES STREQUAL ATMEGA)
-	add_library(${TARGET} STATIC src/keypad_atmega.c)
+if (SERIES STREQUAL AVR)
+	add_library(${TARGET} STATIC src/keypad_AVR.c)
 
 elseif (SERIES STREQUAL TIVA)
 	add_library(${TARGET} STATIC src/keypad_tiva.c lib/utils_tiva.c)
@@ -19,7 +19,7 @@ target_include_directories(${TARGET} PRIVATE include)
 
 #-----------------------------------------------------------------------------#
 
-if (SERIES STREQUAL ATMEGA)
+if (SERIES STREQUAL AVR)
 	target_compile_options(${TARGET} PUBLIC -mmcu=${MCU}
 											-std=gnu11
 											-O2
