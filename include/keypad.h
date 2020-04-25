@@ -14,7 +14,7 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "utils.h"
+#include "utils_tiva.h"
 
 void keypad_init(uint8_t n_row, uint8_t n_col);
 uint8_t keypad_read();
